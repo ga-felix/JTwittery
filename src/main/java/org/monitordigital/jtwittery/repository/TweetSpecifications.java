@@ -1,0 +1,48 @@
+package org.monitordigital.jtwittery.repository;
+
+import org.monitordigital.jtwittery.model.Tweet;
+import org.monitordigital.jtwittery.model.TweetType;
+import org.monitordigital.jtwittery.model.User;
+import org.springframework.data.jpa.domain.Specification;
+
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import static java.util.Objects.isNull;
+
+public class TweetSpecifications {
+
+    public static Specification<Tweet> withAuthors(List<User> authors) {
+        if (isNull(authors)) {
+            return null;
+        } else {
+            return (root, query, cb) -> root.get("author").in(authors);
+        }
+    }
+
+    public static Specification<Tweet> withTypes(List<String> types) {
+        if (isNull(types)) {
+            return null;
+        } else {
+            return (root, query, cb) -> root.get("type").in(types);
+        }
+    }
+
+    public static Specification<Tweet> withSince(OffsetDateTime since) {
+        if (isNull(since)) {
+            return null;
+        } else {
+            return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("createdAt"), since);
+        }
+    }
+
+    public static Specification<Tweet> withUntil(OffsetDateTime until) {
+        if (isNull(until)) {
+            return null;
+        } else {
+            return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("createdAt"), until);
+        }
+    }
+
+
+}
