@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum TweetType {
 
     STANDARD("standard"),
@@ -11,7 +12,6 @@ public enum TweetType {
     QUOTE("quote"),
     REPLY("reply");
 
-    @Getter
     private final String type;
 
 }

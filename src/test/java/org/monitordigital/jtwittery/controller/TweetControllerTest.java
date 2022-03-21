@@ -31,19 +31,75 @@ public class TweetControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldListTweetsAccordingToAuthors() throws Exception {
+    public void shouldListTweetsAccordingSinceDate() throws Exception {
         var getTweetUri = URI.create("/tweet");
         var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
-                .get(getTweetUri)
-                .param("authors", "gabrielfelix"))
+                        .get(getTweetUri)
+                        .param("since", "2007-12-04T07:15:30-02:00"))
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .isOk())
                 .andExpect(MockMvcResultMatchers
                         .content()
-                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType" + lineSeparator +
-                                "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,," + lineSeparator));
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "2,RT @gabrielfelix:Eu acho que...,2007-12-04T07:15:30-02:00,pablo_ortellado,3,0,0,0,retweet,1,retweeted"
+                                + lineSeparator));
+    }
+
+    @Test
+    public void shouldListTweetsAccordingUntilDate() throws Exception {
+        var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(getTweetUri)
+                        .param("until", "2007-12-03T07:15:30-02:00"))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,,"
+                                + lineSeparator));
+    }
+
+    @Test
+    public void shouldListTweetsAccordingToTypes() throws Exception {
+        var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(getTweetUri)
+                        .param("types", "STANDARD"))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,,"
+                                + lineSeparator));
+    }
+
+    @Test
+    public void shouldListTweetsAccordingToAuthors() throws Exception {
+        var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(getTweetUri)
+                        .param("authors", "gabrielfelix"))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,,"
+                                + lineSeparator));
     }
 
 }

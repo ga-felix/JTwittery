@@ -22,7 +22,7 @@ public class QueryBuilder {
     public List<Tweet> getTweets(List<User> authors,
                                  OffsetDateTime since,
                                  OffsetDateTime until,
-                                 List<String> types) {
+                                 List<TweetType> types) {
         return tweetRepository.findAll(where(withAuthors(authors))
                 .and(withTypes(types))
                 .and(withSince(since))
