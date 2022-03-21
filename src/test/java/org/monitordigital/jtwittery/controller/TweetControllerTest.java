@@ -34,7 +34,7 @@ public class TweetControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeEach
+    /*@BeforeEach
     @Transactional
     public void insertTestData() {
         var parentAuthor = new User("gabrielfelix");
@@ -63,16 +63,22 @@ public class TweetControllerTest {
                 Arrays.asList(tweets));
         userRepository.saveAll(Arrays.asList(parentAuthor, retweetAuthor));
         tweetRepository.saveAll(Arrays.asList(parent, retweet));
-    }
+    }*/
 
     @Test
     public void shouldListTweetsAccordingToAuthors() throws Exception {
         var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
                 .get(getTweetUri)
-                .param("authors", "gabrielfelix," + "pablo_ortellado"))
+                .param("authors", "gabrielfelix"))
                 .andExpect(MockMvcResultMatchers
                         .status()
-                        .isOk());
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType" + lineSeparator +
+                                "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,," + lineSeparator));
     }
+
 }
