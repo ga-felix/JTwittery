@@ -29,41 +29,6 @@ public class TweetControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private TweetRepository tweetRepository;
-    @Autowired
-    private UserRepository userRepository;
-
-    /*@BeforeEach
-    @Transactional
-    public void insertTestData() {
-        var parentAuthor = new User("gabrielfelix");
-        var retweetAuthor = new User("pablo_ortellado");
-        var now = OffsetDateTime.now();
-        var parent = new Tweet(Long.valueOf(1),
-                "This is a standard tweet.",
-                now,
-                parentAuthor,
-                Short.valueOf("10"),
-                Short.valueOf("2"),
-                Short.valueOf("1"),
-                Short.valueOf("15"),
-                TweetType.STANDARD,
-                null);
-        var tweets = new ReferencedTweet(parent, ReferenceType.RETWEETED);
-        var retweet = new Tweet(Long.valueOf(2),
-                "RT @gabrielfelix: This is a standard tweet.",
-                now,
-                parentAuthor,
-                Short.valueOf("3"),
-                Short.valueOf("0"),
-                Short.valueOf("0"),
-                Short.valueOf("1"),
-                TweetType.RETWEET,
-                Arrays.asList(tweets));
-        userRepository.saveAll(Arrays.asList(parentAuthor, retweetAuthor));
-        tweetRepository.saveAll(Arrays.asList(parent, retweet));
-    }*/
 
     @Test
     public void shouldListTweetsAccordingToAuthors() throws Exception {
