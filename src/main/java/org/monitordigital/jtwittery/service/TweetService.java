@@ -1,6 +1,8 @@
 package org.monitordigital.jtwittery.service;
 
 import org.monitordigital.jtwittery.model.TweetType;
+import org.monitordigital.jtwittery.model.User;
+import org.monitordigital.jtwittery.service.form.CreateUserForm;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;

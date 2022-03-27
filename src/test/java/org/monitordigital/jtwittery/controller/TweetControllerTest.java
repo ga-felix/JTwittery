@@ -16,18 +16,17 @@ import java.net.URI;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@RequiredArgsConstructor
 public class TweetControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    private URI path = URI.create("/tweet");
 
     @Test
     public void shouldListTweetsAccordingSinceDate() throws Exception {
-        var getTweetUri = URI.create("/tweet");
         var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
-                        .get(getTweetUri)
+                        .get(path)
                         .param("since", "2007-12-04T07:15:30-02:00"))
                 .andExpect(MockMvcResultMatchers
                         .status()
@@ -42,10 +41,9 @@ public class TweetControllerTest {
 
     @Test
     public void shouldListTweetsAccordingUntilDate() throws Exception {
-        var getTweetUri = URI.create("/tweet");
         var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
-                        .get(getTweetUri)
+                        .get(path)
                         .param("until", "2007-12-03T07:15:30-02:00"))
                 .andExpect(MockMvcResultMatchers
                         .status()
@@ -60,10 +58,9 @@ public class TweetControllerTest {
 
     @Test
     public void shouldListTweetsAccordingToTypes() throws Exception {
-        var getTweetUri = URI.create("/tweet");
         var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
-                        .get(getTweetUri)
+                        .get(path)
                         .param("types", "STANDARD"))
                 .andExpect(MockMvcResultMatchers
                         .status()
@@ -78,10 +75,9 @@ public class TweetControllerTest {
 
     @Test
     public void shouldListTweetsAccordingToAuthors() throws Exception {
-        var getTweetUri = URI.create("/tweet");
         var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
-                .get(getTweetUri)
+                .get(path)
                 .param("authors", "1"))
                 .andExpect(MockMvcResultMatchers
                         .status()
