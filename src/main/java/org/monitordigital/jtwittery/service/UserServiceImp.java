@@ -19,8 +19,14 @@ public class UserServiceImp implements UserService {
     }
 
     @SneakyThrows
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow();
+    public User getUser(String id) {
+        User user = null;
+        try {
+            user = userRepository.findById(Long.valueOf(id)).orElseThrow();
+        } catch(NumberFormatException exception) {
+            user = userRepository.findByName(id).orElseThrow();
+        }
+        return user;
     }
 
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     User createUser(CreateUserForm createUserForm);
-    User getUserById(Long id);
+    User getUser(String id);
 
 }

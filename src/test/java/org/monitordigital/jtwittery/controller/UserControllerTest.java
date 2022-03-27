@@ -49,4 +49,17 @@ public class UserControllerTest {
                         .string("{\"id\":1,\"name\":\"gabrielfelix\"}"));
     }
 
+    @Test
+    public void shouldFindUserByName() throws Exception {
+        var uri = URI.create(path + "/gabrielfelix");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(uri))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("{\"id\":1,\"name\":\"gabrielfelix\"}"));
+    }
+
 }
