@@ -1,12 +1,7 @@
 package org.monitordigital.jtwittery.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.monitordigital.jtwittery.model.*;
-import org.monitordigital.jtwittery.repository.TweetRepository;
-import org.monitordigital.jtwittery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.transaction.Transactional;
 import java.net.URI;
-import java.time.OffsetDateTime;
-import java.util.Arrays;
 
 
 @SpringBootTest
@@ -29,50 +21,77 @@ public class TweetControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private TweetRepository tweetRepository;
-    @Autowired
-    private UserRepository userRepository;
 
-    @BeforeEach
-    @Transactional
-    public void insertTestData() {
-        var parentAuthor = new User(1L, "gabrielfelix");
-        var retweetAuthor = new User(2L, "pablo_ortellado");
-        var now = OffsetDateTime.now();
-        var parent = new Tweet(1L,
-                "This is a standard tweet.",
-                now,
-                parentAuthor,
-                Short.valueOf("10"),
-                Short.valueOf("2"),
-                Short.valueOf("1"),
-                Short.valueOf("15"),
-                TweetType.STANDARD,
-                null);
-        var tweets = new ReferencedTweet(parent, ReferenceType.RETWEETED);
-        var retweet = new Tweet(2L,
-                "RT @gabrielfelix: This is a standard tweet.",
-                now,
-                parentAuthor,
-                Short.valueOf("3"),
-                Short.valueOf("0"),
-                Short.valueOf("0"),
-                Short.valueOf("1"),
-                TweetType.RETWEET,
-                Arrays.asList(tweets));
-        userRepository.saveAll(Arrays.asList(parentAuthor, retweetAuthor));
-        tweetRepository.saveAll(Arrays.asList(parent, retweet));
+    @Test
+    public void shouldListTweetsAccordingSinceDate() throws Exception {
+        var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(getTweetUri)
+                        .param("since", "2007-12-04T07:15:30-02:00"))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "2,RT @gabrielfelix:Eu acho que...,2007-12-04T07:15:30-02:00,pablo_ortellado,3,0,0,0,retweet,1,retweeted"
+                                + lineSeparator));
+    }
+
+    @Test
+    public void shouldListTweetsAccordingUntilDate() throws Exception {
+        var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(getTweetUri)
+                        .param("until", "2007-12-03T07:15:30-02:00"))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,,"
+                                + lineSeparator));
+    }
+
+    @Test
+    public void shouldListTweetsAccordingToTypes() throws Exception {
+        var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(getTweetUri)
+                        .param("types", "STANDARD"))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,,"
+                                + lineSeparator));
     }
 
     @Test
     public void shouldListTweetsAccordingToAuthors() throws Exception {
         var getTweetUri = URI.create("/tweet");
+        var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
                 .get(getTweetUri)
                 .param("authors", "1," + "2"))
                 .andExpect(MockMvcResultMatchers
                         .status()
-                        .isOk());
+                        .isOk())
+                .andExpect(MockMvcResultMatchers
+                        .content()
+                        .string("id,text,createdAt,author,likes,retweets,quotes,replies,type,referenced,referenceType"
+                                + lineSeparator
+                                + "1,Eu acho que...,2007-12-03T07:15:30-02:00,gabrielfelix,10,1,0,2,standard,,"
+                                + lineSeparator));
     }
+
 }

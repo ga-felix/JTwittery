@@ -21,7 +21,7 @@ public class CsvTweetExporter implements TweetExporter {
     private List<String> createHeader(Class tweetClass) {
         return new ArrayList<>(Arrays.asList(tweetClass.getDeclaredFields())
                 .stream()
-                .map(field -> field.toString())
+                .map(field -> field.getName())
                 .collect(Collectors.toList()));
     }
 
@@ -39,15 +39,15 @@ public class CsvTweetExporter implements TweetExporter {
 
     private List<List<String>> createBody(List<Tweet> tweets) {
         List<List<String>> csvBody = new ArrayList<>();
-        for(Tweet tweet : tweets) {
-            if(Objects.isNull(tweet.getReferenced())) {
+        for (Tweet tweet : tweets) {
+            if (tweet.getReferenced().isEmpty()) {
                 List<String> stringTweet = tweetToStringList(tweet);
                 stringTweet.add("");
                 stringTweet.add("");
                 csvBody.add(stringTweet);
                 continue;
             }
-            for(ReferencedTweet referenced : tweet.getReferenced()) {
+            for (ReferencedTweet referenced : tweet.getReferenced()) {
                 List<String> stringTweet = tweetToStringList(tweet);
                 stringTweet.add(referenced.getTweet().getId().toString());
                 stringTweet.add(referenced.getReferenceType().getType());
@@ -58,11 +58,12 @@ public class CsvTweetExporter implements TweetExporter {
     }
 
     public Map<String, Object> export(List<Tweet> tweets) {
+        System.out.println(tweets);
         List<String> header = createHeader(tweets.get(0).getClass());
         header.add(("referenceType"));
         List<List<String>> body = createBody(tweets);
         ByteArrayInputStream byteArrayOutputStream;
-        try(
+        try (
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 CSVPrinter csvPrinter = new CSVPrinter(
                         new PrintWriter(out),

@@ -3,6 +3,7 @@ package org.monitordigital.jtwittery.service;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.monitordigital.jtwittery.model.Tweet;
+import org.monitordigital.jtwittery.model.TweetType;
 import org.monitordigital.jtwittery.model.User;
 import org.monitordigital.jtwittery.repository.TweetRepository;
 import org.monitordigital.jtwittery.service.mapper.TweetMapper;
@@ -25,7 +26,7 @@ public class TweetQuery {
     public List<Tweet> getTweets(List<String> authors,
                                  OffsetDateTime since,
                                  OffsetDateTime until,
-                                 List<String> types) {
+                                 List<TweetType> types) {
         List<User> converted = tweetMapper.toUsers(authors);
         return tweetRepository.findAll(where(withAuthors(converted))
                 .and(withTypes(types))

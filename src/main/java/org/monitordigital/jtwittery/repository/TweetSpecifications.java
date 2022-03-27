@@ -20,7 +20,7 @@ public class TweetSpecifications {
         }
     }
 
-    public static Specification<Tweet> withTypes(List<String> types) {
+    public static Specification<Tweet> withTypes(List<TweetType> types) {
         if (isNull(types)) {
             return null;
         } else {
