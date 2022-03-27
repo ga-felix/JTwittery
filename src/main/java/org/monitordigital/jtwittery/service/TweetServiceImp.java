@@ -1,8 +1,8 @@
 package org.monitordigital.jtwittery.service;
 
 import lombok.AllArgsConstructor;
-import org.monitordigital.jtwittery.model.Tweet;
-import org.monitordigital.jtwittery.model.TweetType;
+import org.monitordigital.jtwittery.model.tweet.Tweet;
+import org.monitordigital.jtwittery.model.tweet.TweetType;
 import org.monitordigital.jtwittery.service.exporter.TweetExporter;
 import org.monitordigital.jtwittery.service.query.TweetQuery;
 import org.springframework.stereotype.Service;

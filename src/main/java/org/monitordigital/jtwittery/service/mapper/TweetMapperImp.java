@@ -1,7 +1,7 @@
 package org.monitordigital.jtwittery.service.mapper;
 
 import lombok.AllArgsConstructor;
-import org.monitordigital.jtwittery.model.User;
+import org.monitordigital.jtwittery.model.user.User;
 import org.monitordigital.jtwittery.repository.UserRepository;
 import org.springframework.stereotype.Service;
 

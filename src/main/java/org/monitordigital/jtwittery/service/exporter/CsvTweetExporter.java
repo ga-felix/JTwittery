@@ -2,8 +2,8 @@ package org.monitordigital.jtwittery.service.exporter;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.monitordigital.jtwittery.model.ReferencedTweet;
-import org.monitordigital.jtwittery.model.Tweet;
+import org.monitordigital.jtwittery.model.tweet.ReferencedTweet;
+import org.monitordigital.jtwittery.model.tweet.Tweet;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package org.monitordigital.jtwittery.service.mapper;
 
-import org.monitordigital.jtwittery.model.User;
+import org.monitordigital.jtwittery.model.user.User;
 
 import java.util.List;
 

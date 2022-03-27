@@ -1,7 +1,6 @@
 package org.monitordigital.jtwittery.service.exporter;
 
-import org.monitordigital.jtwittery.model.Tweet;
-import org.springframework.core.io.InputStreamResource;
+import org.monitordigital.jtwittery.model.tweet.Tweet;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

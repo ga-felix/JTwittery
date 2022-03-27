@@ -1,7 +1,9 @@
-package org.monitordigital.jtwittery.model;
+package org.monitordigital.jtwittery.model.tweet;
 
 
 import lombok.NoArgsConstructor;
+import org.monitordigital.jtwittery.model.tweet.ReferenceType;
+import org.monitordigital.jtwittery.model.tweet.Tweet;
 
 import java.io.Serializable;
 

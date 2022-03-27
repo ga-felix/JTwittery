@@ -1,8 +1,8 @@
 package org.monitordigital.jtwittery.repository;
 
-import org.monitordigital.jtwittery.model.Tweet;
-import org.monitordigital.jtwittery.model.TweetType;
-import org.monitordigital.jtwittery.model.User;
+import org.monitordigital.jtwittery.model.tweet.Tweet;
+import org.monitordigital.jtwittery.model.tweet.TweetType;
+import org.monitordigital.jtwittery.model.user.User;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.OffsetDateTime;

@@ -1,4 +1,4 @@
-package org.monitordigital.jtwittery.model;
+package org.monitordigital.jtwittery.model.tweet;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,8 +1,9 @@
-package org.monitordigital.jtwittery.model;
+package org.monitordigital.jtwittery.model.tweet;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.monitordigital.jtwittery.model.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;

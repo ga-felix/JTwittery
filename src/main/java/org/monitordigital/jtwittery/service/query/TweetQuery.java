@@ -1,7 +1,7 @@
 package org.monitordigital.jtwittery.service.query;
 
-import org.monitordigital.jtwittery.model.Tweet;
-import org.monitordigital.jtwittery.model.TweetType;
+import org.monitordigital.jtwittery.model.tweet.Tweet;
+import org.monitordigital.jtwittery.model.tweet.TweetType;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
