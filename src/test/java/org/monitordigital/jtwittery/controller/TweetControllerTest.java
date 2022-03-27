@@ -82,7 +82,7 @@ public class TweetControllerTest {
         var lineSeparator = System.lineSeparator();
         mockMvc.perform(MockMvcRequestBuilders
                 .get(getTweetUri)
-                .param("authors", "1," + "2"))
+                .param("authors", "1"))
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .isOk())

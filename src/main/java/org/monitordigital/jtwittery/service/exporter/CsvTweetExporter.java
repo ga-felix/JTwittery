@@ -67,7 +67,9 @@ public class CsvTweetExporter implements TweetExporter {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 CSVPrinter csvPrinter = new CSVPrinter(
                         new PrintWriter(out),
-                        CSVFormat.DEFAULT.withHeader(header.stream().toArray(String[]::new))
+                        CSVFormat.DEFAULT
+                                .withHeader(header.stream().toArray(String[]::new))
+                                .withRecordSeparator(System.getProperty("line.separator"))
                 );
         ) {
             for (List<String> record : body)
