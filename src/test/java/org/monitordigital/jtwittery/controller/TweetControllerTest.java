@@ -37,10 +37,10 @@ public class TweetControllerTest {
     @BeforeEach
     @Transactional
     public void insertTestData() {
-        var parentAuthor = new User("gabrielfelix");
-        var retweetAuthor = new User("pablo_ortellado");
+        var parentAuthor = new User(1L, "gabrielfelix");
+        var retweetAuthor = new User(2L, "pablo_ortellado");
         var now = OffsetDateTime.now();
-        var parent = new Tweet(Long.valueOf(1),
+        var parent = new Tweet(1L,
                 "This is a standard tweet.",
                 now,
                 parentAuthor,
@@ -51,7 +51,7 @@ public class TweetControllerTest {
                 TweetType.STANDARD,
                 null);
         var tweets = new ReferencedTweet(parent, ReferenceType.RETWEETED);
-        var retweet = new Tweet(Long.valueOf(2),
+        var retweet = new Tweet(2L,
                 "RT @gabrielfelix: This is a standard tweet.",
                 now,
                 parentAuthor,
@@ -70,7 +70,7 @@ public class TweetControllerTest {
         var getTweetUri = URI.create("/tweet");
         mockMvc.perform(MockMvcRequestBuilders
                 .get(getTweetUri)
-                .param("authors", "gabrielfelix," + "pablo_ortellado"))
+                .param("authors", "1," + "2"))
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .isOk());

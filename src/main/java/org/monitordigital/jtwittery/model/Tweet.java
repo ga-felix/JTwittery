@@ -18,7 +18,6 @@ public class Tweet implements Serializable {
     @Id
     private Long id;
     private String text;
-    @Column(name = "created_at")
     private OffsetDateTime createdAt;
     @ManyToOne(fetch = FetchType.LAZY)
     private User author;
