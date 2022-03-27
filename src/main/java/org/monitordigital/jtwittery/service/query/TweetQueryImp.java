@@ -1,4 +1,4 @@
-package org.monitordigital.jtwittery.service;
+package org.monitordigital.jtwittery.service.query;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -17,7 +17,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 @AllArgsConstructor
 @Service
-public class TweetQuery {
+public class TweetQueryImp implements TweetQuery {
 
     private TweetRepository tweetRepository;
     private TweetMapper tweetMapper;
@@ -33,4 +33,5 @@ public class TweetQuery {
                 .and(withSince(since))
                 .and(withUntil(until)));
     }
+
 }

@@ -1,9 +1,7 @@
 package org.monitordigital.jtwittery.controller;
 
 import lombok.AllArgsConstructor;
-import org.monitordigital.jtwittery.model.Tweet;
-import org.monitordigital.jtwittery.service.TweetQuery;
-import org.monitordigital.jtwittery.service.exporter.TweetExporter;
+import org.monitordigital.jtwittery.service.TweetService;
 import org.monitordigital.jtwittery.model.TweetType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -22,16 +20,14 @@ import java.util.List;
 @RequestMapping("/tweet")
 public class TweetController {
 
-    private TweetQuery tweetQuery;
-    private TweetExporter tweetExporter;
+    private TweetService tweetService;
 
     @GetMapping(produces = "text/csv")
     public ResponseEntity<?> getTweetsDataset(@Nullable @RequestParam List<String> authors,
                                               @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime since,
                                               @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime until,
                                               @Nullable @RequestParam List<TweetType> types) {
-        List<Tweet> tweets = tweetQuery.getTweets(authors, since, until, types);
-        var payload = tweetExporter.export(tweets);
+        var payload = tweetService.getTweetDataset(authors, since, until, types);
         return ResponseEntity.ok()
                 .headers((HttpHeaders) payload.get("header"))
                 .body(payload.get("dataset"));
