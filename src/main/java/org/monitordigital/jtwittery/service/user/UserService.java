@@ -1,4 +1,4 @@
-package org.monitordigital.jtwittery.service;
+package org.monitordigital.jtwittery.service.user;
 
 import org.monitordigital.jtwittery.model.user.User;
 import org.monitordigital.jtwittery.service.form.CreateUserForm;

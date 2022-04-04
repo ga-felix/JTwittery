@@ -2,7 +2,7 @@ package org.monitordigital.jtwittery.controller;
 
 import lombok.AllArgsConstructor;
 import org.monitordigital.jtwittery.model.user.User;
-import org.monitordigital.jtwittery.service.UserService;
+import org.monitordigital.jtwittery.service.user.UserService;
 import org.monitordigital.jtwittery.service.form.CreateUserForm;
 import org.monitordigital.jtwittery.service.form.UserDto;
 import org.springframework.http.ResponseEntity;

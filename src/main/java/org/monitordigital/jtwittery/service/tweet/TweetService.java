@@ -1,4 +1,4 @@
-package org.monitordigital.jtwittery.service;
+package org.monitordigital.jtwittery.service.tweet;
 
 import org.monitordigital.jtwittery.model.tweet.TweetType;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package org.monitordigital.jtwittery.controller;
 
 import lombok.AllArgsConstructor;
-import org.monitordigital.jtwittery.service.TweetService;
+import org.monitordigital.jtwittery.service.tweet.TweetService;
 import org.monitordigital.jtwittery.model.tweet.TweetType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;

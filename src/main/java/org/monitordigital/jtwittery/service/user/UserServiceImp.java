@@ -1,10 +1,11 @@
-package org.monitordigital.jtwittery.service;
+package org.monitordigital.jtwittery.service.user;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.monitordigital.jtwittery.model.user.User;
 import org.monitordigital.jtwittery.repository.UserRepository;
 import org.monitordigital.jtwittery.service.form.CreateUserForm;
+import org.monitordigital.jtwittery.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
