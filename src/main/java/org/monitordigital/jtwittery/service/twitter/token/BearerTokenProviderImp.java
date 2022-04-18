@@ -1,12 +1,15 @@
 package org.monitordigital.jtwittery.service.twitter.token;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.*;
 import static java.lang.Thread.sleep;
@@ -15,52 +18,54 @@ import static java.lang.Thread.sleep;
 @Service
 public class BearerTokenProviderImp implements BearerTokenProvider {
 
-    private List<BearerToken> tokens = new LinkedList<>();
-    private final long refreshWindow = 15l; // Twitter api token refreshing window is 15 min
+    private final List<BearerToken> bearerTokens;
+    private final Long refreshWindow = 15L * 60L * 1000L;
 
-    public BearerTokenProviderImp() {
-        var stringTokens = System.getenv("TWITTER_BEARER_TOKENS").split(",");
-        for (String stringToken : stringTokens) {
-            tokens.add(new BearerToken(stringToken, null));
+    public BearerTokenProviderImp(@Value("${twitter.bearerTokens}") String[] environmentTokens) {
+        bearerTokens = Arrays.stream(environmentTokens)
+                .map(
+                        token -> new BearerToken(token, null))
+                .collect(Collectors.toList());
+        log.info(format("%d bearer tokens were found.", bearerTokens.size()));
+    }
+
+    public synchronized BearerToken getValidToken() {
+        if(bearerTokens.isEmpty()) {
+            try {
+                Thread.currentThread().wait();
+            } catch (InterruptedException e) {
+                return getToken();
+            }
         }
-        log.info(format("%d bearer tokens were found.", tokens.size()));
+        return getToken();
     }
 
-    private BearerToken pop(int index) {
-        var token = tokens.get(index);
-        tokens.remove(index);
-        log.info(format("%d bearer token was requested.", token.hashCode()));
-        return token;
+    private BearerToken getToken() {
+        var bearerToken = bearerTokens.get(0);
+        bearerTokens.remove(0);
+        log.info(format("%d bearer token was requested.", bearerToken.hashCode()));
+        return bearerToken;
     }
 
-    public BearerToken getValidToken() {
-        return pop(0);
-    }
-
-    private boolean isRefreshed(BearerToken token) {
-        return Duration.between(token.getFirstCall(), OffsetDateTime.now()).toMinutes() >= refreshWindow;
+    public synchronized void returnExpiredToken(BearerToken token) {
+        log.info(format("Waiting %d bearer token to refresh.", token.hashCode()));
+        waitUntilRefresh(token);
+        bearerTokens.add(token);
+        Thread.currentThread().notify();
+        log.info(format("Bearer token %d was returned.", token.hashCode()));
     }
 
     private void waitUntilRefresh(BearerToken token) {
-        if (!isRefreshed(token)) {
-            var sleepDate = OffsetDateTime.now();
-            try {
-                var milis = Duration.between(token.getFirstCall(), sleepDate).toMillis();
-                log.info(format("Sleeping for %d ms so the token can refresh.", milis));
-                sleep(milis);
-            } catch (InterruptedException exception) {
-                var timeLeft = Duration.between(sleepDate, OffsetDateTime.now()).toMillis();
-                log.warn(format("Bearer token refreshing interrupted with %d ms left.", timeLeft));
-            }
-            log.info(format("%d bearer token is available.", token.hashCode()));
+        try {
+            var milis = Duration.between(token.getFirstCall(), Instant.now()).toMillis();
+            log.info(format("Sleeping for %d ms so the token can refresh.", refreshWindow - milis));
+            sleep(refreshWindow - milis);
+        } catch (InterruptedException exception) {
+            var timeLeft = Duration.between(token.getFirstCall(), Instant.now()).toMillis();
+            log.warn(format("Bearer token refreshing interrupted with %d ms left.",
+                    refreshWindow - timeLeft));
         }
-    }
-
-    public void returnToken(BearerToken token) {
-        log.info(format("Waiting %d bearer token to refresh.", token.hashCode()));
-        waitUntilRefresh(token);
-        tokens.add(token);
-        log.info(format("Bearer token %d was returned.", token.hashCode()));
+        log.info(format("%d bearer token is available.", token.hashCode()));
     }
 
 }

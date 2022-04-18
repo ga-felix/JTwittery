@@ -1,11 +1,8 @@
 package org.monitordigital.jtwittery.service.twitter.token;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @AllArgsConstructor
 @Getter
@@ -14,6 +11,6 @@ public class BearerToken {
 
     private String token;
     @Setter
-    private OffsetDateTime firstCall;
+    private Instant firstCall;
 
 }

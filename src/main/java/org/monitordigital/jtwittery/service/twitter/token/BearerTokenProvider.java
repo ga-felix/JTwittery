@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 public interface BearerTokenProvider {
 
     BearerToken getValidToken();
-    void returnToken(BearerToken token);
+    void returnExpiredToken(BearerToken token);
 
 }
