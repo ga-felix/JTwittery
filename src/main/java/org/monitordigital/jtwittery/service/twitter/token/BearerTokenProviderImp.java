@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 @Slf4j
@@ -32,8 +32,10 @@ public class BearerTokenProviderImp implements BearerTokenProvider {
     public synchronized BearerToken getValidToken() {
         if(bearerTokens.isEmpty()) {
             try {
-                Thread.currentThread().wait();
+                log.info(format("%s is waiting for tokens.", currentThread().getId()));
+                this.wait();
             } catch (InterruptedException e) {
+                log.info(format("%s was released and will get a new token.", currentThread().getId()));
                 return getToken();
             }
         }
@@ -51,7 +53,7 @@ public class BearerTokenProviderImp implements BearerTokenProvider {
         log.info(format("Waiting %d bearer token to refresh.", token.hashCode()));
         waitUntilRefresh(token);
         bearerTokens.add(token);
-        Thread.currentThread().notify();
+        this.notify();
         log.info(format("Bearer token %d was returned.", token.hashCode()));
     }
 

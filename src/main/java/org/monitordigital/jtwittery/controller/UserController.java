@@ -1,6 +1,7 @@
 package org.monitordigital.jtwittery.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.monitordigital.jtwittery.model.user.User;
 import org.monitordigital.jtwittery.service.user.UserService;
 import org.monitordigital.jtwittery.service.form.CreateUserForm;
@@ -26,6 +27,7 @@ public class UserController {
                 .body(newUser);
     }
 
+    @SneakyThrows
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable String id) {
         User foundUser = userService.getUser(id);

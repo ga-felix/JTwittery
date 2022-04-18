@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     User createUser(CreateUserForm createUserForm);
-    User getUser(String id);
+    User getUser(String id) throws Exception;
 
 }
